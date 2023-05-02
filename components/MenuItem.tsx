@@ -29,7 +29,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ title, link, PropItems }) => {
         onMouseLeave={handlehover}
         className=" flex px-7 w-full h-full items-center justify-center hover:opacity-80 hover:cursor-pointer hover:bg-[#254e92] relative"
       >
-        <p className="text-white text-xl">{title}</p>
+        <p className="text-white text-xl px-2">{title}</p>
 
         {PropItems && <RiArrowDropDownLine size={30} className={`ml-1 text-white transition ${showDropdownMenu ? " rotate-180" : ""}`} />}
 
