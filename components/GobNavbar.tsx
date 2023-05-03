@@ -12,8 +12,6 @@ const GobNavbar = () => {
     router.push("https://www.gob.mx/");
   };
 
-  console.log(gobMxSVG);
-
   return (
     <nav className="w-full fixed z-40 top-0">
       <div className="h-[60px] px-4 flex flex-row items-center gap-16  bg-[#0C231E] ">
