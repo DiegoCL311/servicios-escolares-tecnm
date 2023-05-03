@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import gobMxSVG from "../public/images/gobMxSVG.svg";
 import { FaFacebookF } from "react-icons/fa";
 import { AiOutlineTwitter } from "react-icons/ai";
+import Link from "next/link";
 
 interface MyFooterProps {}
 
@@ -35,9 +36,9 @@ const MyFooter: React.FC<MyFooterProps> = () => {
             <div className=" text-2xl  font-normal pb-3"> ¿Qué es gob.mx?</div>
             <div className="">
               Es el portal único de trámites, información y participación <br /> ciudadana.{" "}
-              <a className="hover:underline" href="/">
+              <Link className="hover:underline" href="/">
                 Ver mas.{" "}
-              </a>
+              </Link>
               <div className="">
                 <div className="hover:underline hover:cursor-pointer  mt-3">Portal de datos abiertos</div>
                 <div className="hover:underline hover:cursor-pointer">Declaración de accesibilidad</div>

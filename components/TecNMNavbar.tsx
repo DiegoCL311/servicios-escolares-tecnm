@@ -17,12 +17,14 @@ const TecNMNavbar = () => {
 
   return (
     <>
-      <div className="h-24 bg-white mt-[60px] flex flex-row gap-2 items-center mx-28">
+      <div className="h-24 bg-white mt-[60px] flex  flex-col md:flex-row gap-2 items-center mx-28">
         <img className="hover:cursor-pointer h-16" src={logoeducacionSVG.src} alt="SVG" onClick={handleClick("")!} />
-        <img className=" h-16" src={gap.src} alt="SVG" />
+        <img className=" h-16 invisible md:visible" src={gap.src} alt="SVG" />
         <img className="hover:cursor-pointer h-28 " src={logotecnmsvg.src} alt="SVG" onClick={handleClick("https://www.tecnm.mx/")!} />
-        <img className=" h-16" src={gap.src} alt="SVG" />
+        <img className=" h-16 invisible md:visible" src={gap.src} alt="SVG" />
         <img className="hover:cursor-pointer h-18" src={logoitcsvg.src} alt="SVG" onClick={handleClick("https://culiacan.tecnm.mx/")!} />
+        <img className=" h-16 invisible md:visible" src={gap.src} alt="SVG" />
+
         <h2 className="text-[#1B396A] pl-8 text-3xl font-semibold">Servicios Escolares</h2>
 
         <div className="flex flex-row ml-auto gap-7 items-center ">

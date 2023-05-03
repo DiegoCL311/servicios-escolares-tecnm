@@ -6,7 +6,7 @@ interface MenuProps {}
 const Menu: React.FC<MenuProps> = ({}) => {
   return (
     <>
-      <div className="w-full h-[50px] bg-[#1b396a] sticky top-[59px]  z-39 flex flex-row  align-middle items-center justify-center px-80">
+      <div className="w-full h-[50px] bg-[#1b396a] sticky top-[59px]  z-39 flex flex-row   align-middle items-center justify-center px-80">
         <MenuItem title="Kardex" link="/kardex"></MenuItem>
         <MenuItem
           title="Constancias"
