@@ -1,5 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 interface SubmenuProps {
   items: { label: string; url: string }[];
@@ -8,16 +9,12 @@ interface SubmenuProps {
 const Submenu: React.FC<SubmenuProps> = ({ items }) => {
   const router = useRouter();
 
-  const handleClick = (url: string) => {
-    router.push(url);
-  };
-
   return (
-    <div className="absolute left-0 transform translate-x-0 top-full w-full bg-white shadow-md rounded-b-lg py-2">
+    <div className="absolute left-0 transform translate-x-0 top-full w-full bg-blue-200 shadow-md rounded-b-lg py-2">
       {items.map((item) => (
-        <a onClick={() => handleClick(item.url)} key={item.label} href={item.url} className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+        <Link href={item.url} key={item.label} className="block p-1 lg:px-4 lg:py-2 text-black hover:bg-blue-500 text-sm">
           {item.label}
-        </a>
+        </Link>
       ))}
     </div>
   );

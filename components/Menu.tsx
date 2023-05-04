@@ -6,27 +6,34 @@ interface MenuProps {}
 const Menu: React.FC<MenuProps> = ({}) => {
   return (
     <>
-      <div className="w-full h-[50px] bg-[#1b396a] sticky top-[59px]  z-39 flex flex-row  align-middle items-center justify-center px-80">
-        <MenuItem title="Kardex" link="/kardex"></MenuItem>
+      <div className="w-full h-[50px] bg-[#1b396a] sticky top-[59px] z-[39] flex flex-row justify-center px-0 lg:px-80 ">
+        <MenuItem
+          title="Kárdex"
+          Rlink="/kardex"
+          PropItems={[
+            { label: "Kárdex lista", url: "/kardex/lista" },
+            { label: "Kárdex grafico", url: "/kardex/grafico" },
+          ]}
+        ></MenuItem>
         <MenuItem
           title="Constancias"
-          link="/constancias"
+          Rlink="/constancias"
           PropItems={[
-            { label: "Constancias de estudio", url: "/constancias/estudio" },
-            { label: "etc", url: "/constancias/etc" },
+            { label: "Constancia de estudios", url: "/constancias/estudios" },
+            { label: "Constancia de estudios imss", url: "/constancias/estudiosimss" },
           ]}
         ></MenuItem>
         <MenuItem
           title="Boletas"
-          link="/boletas"
+          Rlink="/boletas"
           PropItems={[
-            { label: "Boletas de calificaciones", url: "/boletas/duplicado" },
+            { label: "Boleta de calificaciones", url: "/boletas/duplicado" },
             { label: "etc", url: "/boletas/etc" },
           ]}
         ></MenuItem>
         <MenuItem
           title="Certificados"
-          link="/kardex"
+          Rlink="/certificados"
           PropItems={[
             { label: "Certificados de estudios completo", url: "/certificados/completo" },
             { label: "Certificados de estudios incompleto", url: "/certificados/incompleto" },
