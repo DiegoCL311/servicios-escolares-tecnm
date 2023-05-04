@@ -6,7 +6,7 @@ interface MenuProps {}
 const Menu: React.FC<MenuProps> = ({}) => {
   return (
     <>
-      <div className="w-full h-[50px] bg-[#1b396a] sticky top-[59px]  z-[39] flex flex-row   align-middle items-center justify-center px-80">
+      <div className="w-full h-[50px] bg-[#1b396a] sticky top-[59px] z-[39] flex flex-row justify-center px-0 lg:px-80 ">
         <MenuItem
           title="Kárdex"
           Rlink="/kardex"
@@ -19,7 +19,7 @@ const Menu: React.FC<MenuProps> = ({}) => {
           title="Constancias"
           Rlink="/constancias"
           PropItems={[
-            { label: "Constancias de estudios", url: "/constancias/estudios" },
+            { label: "Constancia de estudios", url: "/constancias/estudios" },
             { label: "Constancia de estudios imss", url: "/constancias/estudiosimss" },
           ]}
         ></MenuItem>
@@ -27,7 +27,7 @@ const Menu: React.FC<MenuProps> = ({}) => {
           title="Boletas"
           Rlink="/boletas"
           PropItems={[
-            { label: "Boletas de calificaciones", url: "/boletas/duplicado" },
+            { label: "Boleta de calificaciones", url: "/boletas/duplicado" },
             { label: "etc", url: "/boletas/etc" },
           ]}
         ></MenuItem>

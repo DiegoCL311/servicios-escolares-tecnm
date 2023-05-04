@@ -28,11 +28,11 @@ const MenuItem: React.FC<MenuItemProps> = ({ title, Rlink, PropItems }) => {
         href={Rlink}
         onMouseEnter={handlehover}
         onMouseLeave={handlehover}
-        className=" flex px-7 w-full h-full items-center justify-center hover:opacity-80 hover:cursor-pointer hover:bg-[#254e92] relative"
+        className=" flex md:px-7 w-full h-full items-center justify-center hover:opacity-80 hover:cursor-pointer hover:bg-[#254e92] relative"
       >
-        <p className="text-white text-xl px-2">{title}</p>
+        <p className="text-white text-sm md:text-xl md:px-2">{title}</p>
 
-        {PropItems && <RiArrowDropDownLine size={30} className={`ml-1 text-white transition ${showDropdownMenu ? " rotate-180" : ""}`} />}
+        {PropItems && <RiArrowDropDownLine size={30} className={`hidden sm:flex md:ml-1 text-white transition ${showDropdownMenu ? " rotate-180" : ""}`} />}
 
         {showDropdownMenu && PropItems && <Submenu items={PropItems} />}
       </Link>
