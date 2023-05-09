@@ -3,7 +3,6 @@ import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
 import fs from "fs";
 import path from "path";
-import { jsPDF } from "jspdf";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -33,18 +32,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Load the generated docx file as binary content
     const data = fs.readFileSync(path.join(process.cwd(), "pages/api/output.docx"));
 
-    // Convert docx to pdf
-    const docxToPdf = new jsPDF();
-    const pageData = docxToPdf.loadFile(path.join(process.cwd(), "pages/api/output.docx"));
-    docxToPdf.addPage(pageData);
-    const pdfBytes = await docxToPdf.output();
-
-    // Set headers and send the PDF file as the response
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", "attachment; filename=archivo.pdf");
-    res.send(pdfBytes);
+    // Set headers and send the DOCX file as the response
+    res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+    res.setHeader("Content-Disposition", "attachment; filename=Archivo.docx");
+    res.send(data);
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");
+  } finally {
+    // Delete the generated file from the public directory
+    fs.unlinkSync(path.join(process.cwd(), "pages/api/output.docx"));
   }
 }
