@@ -26,7 +26,7 @@ const TecNMNavbar = () => {
           <img className="hover:cursor-pointer h-16" src={logoitcsvg.src} alt="SVG" onClick={handleClick("https://culiacan.tecnm.mx/")!} />
         </div>
 
-        <div className="md:h-24 h-16 bg-white flex flex-row gap-10 lg:gap-4 items-center m-auto">
+        <div className="md:h-24 h-16 bg-white flex flex-row gap-8 lg:gap-4 items-center m-auto">
           <div className="text-[#1B396A] text-lg sm:text-3xl font-semibold align-middle items-center justify-center m-auto my-2">Servicios Escolares</div>
 
           <div className=" flex flex-row ml-auto gap-7 items-center m-auto">
