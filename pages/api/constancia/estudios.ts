@@ -5,8 +5,9 @@ import fs from "fs/promises";
 import path from "path";
 import { convertToPdf } from "../utils/toPDF";
 import { convertToPdfLibre } from "../utils/toPDFLibre";
-const PDFDocument = require("pdfkit");
-const MemoryStreams = require("memory-streams");
+import getConfig from "next/config";
+const { serverRuntimeConfig } = getConfig()
+
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Set headers
@@ -16,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     // Load the docx file as binary content
-    const content = await fs.readFile(path.join(process.cwd(), "templates/ConstanciaEstudioTemplate.docx"), "binary");
+    const content = await fs.readFile(path.join(serverRuntimeConfig.PROJECT_ROOT, "templates/ConstanciaEstudioTemplate.docx"), "binary");
     const zip = new PizZip(content);
 
     const doc = new Docxtemplater(zip, {
@@ -47,7 +48,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     //PDFTron / Apryse version
 
-    await fs.writeFile(path.join(process.cwd(), `/tmp/${filename}.docx`), buffer);
+    await fs.writeFile(path.join(serverRuntimeConfig.PROJECT_ROOT, `/tmp/${filename}.docx`), buffer);
     const pdfbuff = await convertToPdf(filename);
 
     //send the PDF file as the response
@@ -57,6 +58,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(500).send("Internal Server Error");
   } finally {
     //Delete the generated file from the public directory if using PDFTron / Apryse version
-    await fs.unlink(path.join(process.cwd(), `/tmp/${filename}.docx`));
+    await fs.unlink(path.join(serverRuntimeConfig.PROJECT_ROOT, `/tmp/${filename}.docx`));
   }
 }
