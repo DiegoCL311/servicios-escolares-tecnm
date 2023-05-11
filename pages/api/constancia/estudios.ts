@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
 import fs from "fs";
-import fspromises from "fs/promises";
 import path from "path";
 import { convertToPdf } from "../utils/toPDF";
 import { convertToPdfLibre } from "../utils/toPDFLibre";
@@ -54,8 +53,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log(error);
     res.status(500).send("Internal Server Error");
   } finally {
-    // Delete the generated file from the public directory
-    //fs.unlinkSync(path.join(process.cwd(), `templates/etc/${filename}.docx`));
-    //fs.unlinkSync(path.join(process.cwd(), `templates/etc/${filename}.pdf`));
+    //Delete the generated file from the public directory if using PDFTron / Apryse version
+    fs.unlinkSync(path.join(process.cwd(), `templates/etc/${filename}.docx`));
   }
 }

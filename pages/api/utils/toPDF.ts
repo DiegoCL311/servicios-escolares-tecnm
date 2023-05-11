@@ -7,14 +7,14 @@ export async function convertToPdf(filename: string) {
     await PDFNet.initialize(process.env.PDFTRON_KEY);
 
     const pdfdoc = await PDFNet.Convert.officeToPdfWithPath(`templates/etc/${filename}.docx`);
-    await pdfdoc.save(`templates/etc/${filename}.pdf`, PDFNet.SDFDoc.SaveOptions.e_linearized);
+    const docBuffer = await pdfdoc.saveMemoryBuffer(PDFNet.SDFDoc.SaveOptions.e_linearized);
+    const buffer = Buffer.from(docBuffer, "binary");
 
-    const pdfres = fs.readFileSync(`templates/etc/${filename}.pdf`);
-
-    fs.unlinkSync(`templates/etc/${filename}.docx`);
-
-    return pdfres;
+    return buffer;
   } catch (error) {
     console.error("Error al convertir a PDF:", error);
+  } finally {
+    //Delete PDF saved by pdfdoc
+    //fs.unlinkSync(`templates/etc/${filename}.pdf`);
   }
 }
