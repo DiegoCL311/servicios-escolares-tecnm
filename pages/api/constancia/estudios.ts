@@ -47,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     //PDFTron / Apryse version
 
-    await fs.writeFile(path.join(process.cwd(), `templates/etc/${filename}.docx`), buffer);
+    await fs.writeFile(path.join(process.cwd(), `/tmp/${filename}.docx`), buffer);
     const pdfbuff = await convertToPdf(filename);
 
     //send the PDF file as the response
@@ -57,6 +57,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(500).send("Internal Server Error");
   } finally {
     //Delete the generated file from the public directory if using PDFTron / Apryse version
-    await fs.unlink(path.join(process.cwd(), `templates/etc/${filename}.docx`));
+    await fs.unlink(path.join(process.cwd(), `/tmp/${filename}.docx`));
   }
 }
