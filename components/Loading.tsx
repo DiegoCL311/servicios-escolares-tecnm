@@ -1,16 +1,15 @@
 import React from "react";
+import LoadingSpinner from "./LoadingSpinner";
 
-interface LoadingScreenProps {
-  message?: string;
-}
-
-const LoadingScreen: React.FC<LoadingScreenProps> = ({ message }) => {
+const Loading: React.FC = () => {
   return (
-    <div className="loading-screen">
-      <div className="loading-spinner"></div>
-      <p className="loading-message">{message || "Loading..."}</p>
+    <div>
+      <div className="flex flex-col justify-center items-center mt-6">
+        <div className="text-2xl font-bold text-blue-500">Cargando...</div>
+      </div>{" "}
+      <LoadingSpinner />
     </div>
   );
 };
 
-export default LoadingScreen;
+export default Loading;
