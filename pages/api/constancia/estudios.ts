@@ -16,7 +16,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     // Load the docx file as binary content
-    const content = await fs.readFile("./templates/ConstanciaEstudioTemplate.docx", "binary");
+    const docxDirectory = path.join(process.cwd(), "templates/");
+    const content = await fs.readFile(docxDirectory + "ConstanciaEstudioTemplate.docx", "binary");
     const zip = new PizZip(content);
 
     const doc = new Docxtemplater(zip, {
@@ -32,6 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       fechaInicioSem: "30 de Enero del 2023",
       fechaFinSem: "12 de Junio del 2023",
       carreraAlumno: "Ingeniería en Sistemas Computacionales",
+      fechaActual: new Date().toLocaleDateString(),
     };
 
     doc.setData(docxData);
@@ -46,8 +48,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     //const pdfbuff = await convertToPdfLibre(buffer);
 
     //PDFTron / Apryse version
+    const tmpDirectory = path.join(process.cwd(), "tmp/");
+    console.log(tmpDirectory);
 
-    await fs.writeFile(`./tmp/${filename}.docx`, buffer);
+    await fs.writeFile(tmpDirectory + `${filename}.docx`, buffer);
     const pdfbuff = await convertToPdf(filename);
 
     //send the PDF file as the response
@@ -57,6 +61,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(500).send("Internal Server Error");
   } finally {
     //Delete the generated file from the public directory if using PDFTron / Apryse version
-    await fs.unlink(path.join(serverRuntimeConfig.PROJECT_ROOT, `./tmp/${filename}.docx`));
+    await fs.unlink(path.join(process.cwd(), "tmp") + `/${filename}.docx`);
   }
 }
