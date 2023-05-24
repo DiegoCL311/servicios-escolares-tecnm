@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     // Load the docx file as binary content
-    const content = await fs.readFile(path.join(serverRuntimeConfig.PROJECT_ROOT, "templates/ConstanciaEstudioTemplate.docx"), "binary");
+    const content = await fs.readFile("./templates/ConstanciaEstudioTemplate.docx", "binary");
     const zip = new PizZip(content);
 
     const doc = new Docxtemplater(zip, {
