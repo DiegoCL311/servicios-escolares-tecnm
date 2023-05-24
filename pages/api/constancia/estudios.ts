@@ -6,8 +6,7 @@ import path from "path";
 import { convertToPdf } from "../utils/toPDF";
 import { convertToPdfLibre } from "../utils/toPDFLibre";
 import getConfig from "next/config";
-const { serverRuntimeConfig } = getConfig()
-
+const { serverRuntimeConfig } = getConfig();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Set headers
@@ -48,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     //PDFTron / Apryse version
 
-    await fs.writeFile(path.join(serverRuntimeConfig.PROJECT_ROOT, `/tmp/${filename}.docx`), buffer);
+    await fs.writeFile(`./tmp/${filename}.docx`, buffer);
     const pdfbuff = await convertToPdf(filename);
 
     //send the PDF file as the response
@@ -58,6 +57,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(500).send("Internal Server Error");
   } finally {
     //Delete the generated file from the public directory if using PDFTron / Apryse version
-    await fs.unlink(path.join(serverRuntimeConfig.PROJECT_ROOT, `/tmp/${filename}.docx`));
+    await fs.unlink(path.join(serverRuntimeConfig.PROJECT_ROOT, `./tmp/${filename}.docx`));
   }
 }
