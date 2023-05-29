@@ -1,12 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
-import fs from "fs/promises";
+import { promises as fs } from "fs";
 import path from "path";
 import { convertToPdf } from "../utils/toPDF";
 import { convertToPdfLibre } from "../utils/toPDFLibre";
 import getConfig from "next/config";
 const { serverRuntimeConfig } = getConfig();
+import os from "os";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Set headers
@@ -16,8 +17,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     // Load the docx file as binary content
-    const docxDirectory = path.join(process.cwd(), "templates/");
-    const content = await fs.readFile(docxDirectory + "ConstanciaEstudioTemplate.docx", "binary");
+    const templatePath = path.join(serverRuntimeConfig.PROJECT_ROOT, "public", "templates", "ConstanciaEstudioTemplate.docx");
+    const content = await fs.readFile(templatePath, "binary");
     const zip = new PizZip(content);
 
     const doc = new Docxtemplater(zip, {
@@ -48,10 +49,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     //const pdfbuff = await convertToPdfLibre(buffer);
 
     //PDFTron / Apryse version
-    const tmpDirectory = path.join(process.cwd(), "tmp/");
-    console.log(tmpDirectory);
+    const tmpDir = path.join(serverRuntimeConfig.PROJECT_ROOT, "tmp");
+    const outputPath = path.join(tmpDir, `${filename}.docx`);
+    await fs.writeFile(outputPath, buffer);
 
-    await fs.writeFile(tmpDirectory + `${filename}.docx`, buffer);
     const pdfbuff = await convertToPdf(filename);
 
     //send the PDF file as the response
@@ -61,6 +62,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(500).send("Internal Server Error");
   } finally {
     //Delete the generated file from the public directory if using PDFTron / Apryse version
-    await fs.unlink(path.join(process.cwd(), "tmp") + `/${filename}.docx`);
+    //await fs.unlink(path.join(process.cwd(), "tmp") + `/${filename}.docx`);
   }
 }
