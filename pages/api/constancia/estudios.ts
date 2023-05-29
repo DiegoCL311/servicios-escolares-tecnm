@@ -7,7 +7,6 @@ import { convertToPdf } from "../utils/toPDF";
 import { convertToPdfLibre } from "../utils/toPDFLibre";
 import getConfig from "next/config";
 const { serverRuntimeConfig } = getConfig();
-import os from "os";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Set headers
@@ -17,7 +16,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     // Load the docx file as binary content
-    const templatePath = path.join(serverRuntimeConfig.PROJECT_ROOT, "public", "templates", "ConstanciaEstudioTemplate.docx");
+    const templatePathWin = path.join(serverRuntimeConfig.PROJECT_ROOT, "public", "templates", "ConstanciaEstudioTemplate.docx");
+    const templatePath =
+      process.env.NODE_ENV === "production"
+        ? path.join(serverRuntimeConfig.PROJECT_ROOT, "templates", "ConstanciaEstudioTemplate.docx")
+        : templatePathWin;
     const content = await fs.readFile(templatePath, "binary");
     const zip = new PizZip(content);
 
@@ -62,6 +65,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(500).send("Internal Server Error");
   } finally {
     //Delete the generated file from the public directory if using PDFTron / Apryse version
-    //await fs.unlink(path.join(process.cwd(), "tmp") + `/${filename}.docx`);
+    await fs.unlink(path.join(serverRuntimeConfig.PROJECT_ROOT, "tmp", `${filename}.docx`));
   }
 }
