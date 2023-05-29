@@ -16,10 +16,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     // Load the docx file as binary content
-    const templatePathWin = path.join(serverRuntimeConfig.PROJECT_ROOT, "public", "templates", "ConstanciaEstudioTemplate.docx");
+    const templatePathWin = path.join(process.cwd(), "public", "templates", "ConstanciaEstudioTemplate.docx");
     const templatePath =
       process.env.NODE_ENV === "production"
-        ? path.join(serverRuntimeConfig.PROJECT_ROOT, "templates", "ConstanciaEstudioTemplate.docx")
+        ? path.join(process.cwd(), "templates", "ConstanciaEstudioTemplate.docx")
         : templatePathWin;
     const content = await fs.readFile(templatePath, "binary");
     const zip = new PizZip(content);
@@ -52,7 +52,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     //const pdfbuff = await convertToPdfLibre(buffer);
 
     //PDFTron / Apryse version
-    const tmpDir = path.join(serverRuntimeConfig.PROJECT_ROOT, "tmp");
+    const tmpDir = path.join(process.cwd(), "tmp");
     const outputPath = path.join(tmpDir, `${filename}.docx`);
     await fs.writeFile(outputPath, buffer);
 
@@ -65,6 +65,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(500).send("Internal Server Error");
   } finally {
     //Delete the generated file from the public directory if using PDFTron / Apryse version
-    await fs.unlink(path.join(serverRuntimeConfig.PROJECT_ROOT, "tmp", `${filename}.docx`));
+    await fs.unlink(path.join(process.cwd(), "tmp", `${filename}.docx`));
   }
 }
