@@ -1,1 +1,75 @@
 //
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+}
+
+model Carrera {
+    id         String       @id @default(auto()) @map("_id") @db.ObjectId
+    nombre     String
+    createdAt  DateTime?    @default(now())
+    updatedAt  DateTime?    @default(now()) @updatedAt
+    Estudiante Estudiante[]
+    Reticula   Reticula[]
+}
+
+model Materia {
+    id        String    @id @default(auto()) @map("_id") @db.ObjectId
+    nombre    String
+    createdAt DateTime? @default(now())
+    updatedAt DateTime? @default(now()) @updatedAt
+    Cursos    Cursos[]
+}
+
+model Reticula {
+    id        String    @id @default(auto()) @map("_id") @db.ObjectId
+    semestre  Int
+    carreraid String    @db.ObjectId
+    createdAt DateTime? @default(now())
+    updatedAt DateTime? @default(now()) @updatedAt
+    Carrera   Carrera?  @relation(fields: [carreraid], references: [id], onDelete: Cascade)
+    materias  String[]
+}
+
+model Cursos {
+    id           String      @id @default(auto()) @map("_id") @db.ObjectId
+    estudianteId String      @db.ObjectId
+    materiaId    String      @db.ObjectId
+    calificacion Int
+    semCursada   Int
+    createdAt    DateTime?   @default(now())
+    updatedAt    DateTime?   @default(now()) @updatedAt
+    Estudiante   Estudiante? @relation(fields: [estudianteId], references: [id], onDelete: Cascade)
+    Materia      Materia?    @relation(fields: [materiaId], references: [id], onDelete: Cascade)
+}
+model Estudiante {
+    id              String    @id @default(auto()) @map("_id") @db.ObjectId
+    nombres         String
+    apellidoPaterno String
+    apellidoMaterno String
+    numeroControl   String    @unique
+    semestre        Int
+    createdAt       DateTime? @default(now())
+    updatedAt       DateTime? @default(now()) @updatedAt
+    carreraid       String    @db.ObjectId
+    Carrera         Carrera?  @relation(fields: [carreraid], references: [id], onDelete: Cascade)
+    Cuenta          Cuenta[]
+    Cursos          Cursos[]
+}
+
+
+
+model Cuenta {
+    id             String      @id @default(auto()) @map("_id") @db.ObjectId
+    estudianteid   String?     @db.ObjectId
+    email          String?     @unique
+    emailVerified  DateTime?
+    hashedPassword String?
+    createdAt      DateTime?   @default(now())
+    updatedAt      DateTime?   @default(now()) @updatedAt
+    Estudiante     Estudiante? @relation(fields: [estudianteid], references: [id], onDelete: Cascade)
+}

@@ -27,14 +27,21 @@ const TecNMNavbar = () => {
         </div>
 
         <div className="md:h-24 h-16 bg-white flex flex-row gap-8 lg:gap-4 items-center m-auto">
-          <div className="text-[#1B396A] text-lg sm:text-3xl font-semibold align-middle items-center justify-center m-auto my-2">Servicios Escolares</div>
+          <p
+            onClick={() => {
+              router.push("/");
+            }}
+            className="text-[#1B396A] text-lg sm:text-3xl font-semibold align-middle items-center justify-center m-auto my-2 hover:cursor-pointer"
+          >
+            Servicios Escolares
+          </p>
 
           <div className=" flex flex-row ml-auto gap-7 items-center m-auto">
             <div className=" w-10 h-10 rounded-full bg-blue-950 flex flex-row align-middle items-center justify-center  hover:cursor-pointer">
               <AiOutlineMail
                 className="text-white"
                 onClick={() => {
-                  router.push("");
+                  router.push("/");
                 }}
               />
             </div>
@@ -42,7 +49,7 @@ const TecNMNavbar = () => {
               <BsSearch
                 className="text-white "
                 onClick={() => {
-                  router.push("");
+                  router.push("/");
                 }}
               />
             </div>

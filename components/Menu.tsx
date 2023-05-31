@@ -1,9 +1,14 @@
 import React from "react";
 import MenuItem from "./MenuItem";
+import { useRouter } from "next/router";
+import { signOut } from "next-auth/react";
+import AccountMenuItem from "./AccountMenuItem";
 
 interface MenuProps {}
 
 const Menu: React.FC<MenuProps> = ({}) => {
+  const router = useRouter();
+
   return (
     <>
       <div className="w-full h-[50px] bg-[#1b396a] sticky top-[59px] z-[39] flex flex-row justify-center px-0 lg:px-80 ">
@@ -39,7 +44,9 @@ const Menu: React.FC<MenuProps> = ({}) => {
             { label: "Certificados de estudios incompleto", url: "/certificados/incompleto" },
           ]}
         ></MenuItem>
+        <AccountMenuItem />
       </div>
+
     </>
   );
 };

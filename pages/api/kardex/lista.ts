@@ -16,10 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     // Load the docx file as binary content
-    const content = await fs.readFile(
-      (process.env.NODE_ENV === "production" ? "" : "public") + "/templates/ConstanciaEstudioTemplate.docx",
-      "binary"
-    );
+    const content = await fs.readFile((process.env.NODE_ENV === "production" ? "" : "public") + "/templates/kardexListaTemplate.docx", "binary");
     const zip = new PizZip(content);
 
     const doc = new Docxtemplater(zip, {
@@ -41,20 +38,64 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
     });
 
-    console.log("acc", estudianteInfo);
+    //get data from reticulas, materias, cursos, using prisma , // ID de la carrera del alumno
+    const reticulas = await prismadb.reticula.findMany({
+      where: {
+        carreraid: estudianteInfo.Estudiante.Carrera.id,
+      },
+    });
+
+    var reticulaArray: Object[] = [];
+    for (const item of reticulas) {
+      const materias: Object[] = [];
+
+      const materiasArr = await prismadb.materia.findMany({
+        where: {
+          id: {
+            in: item.materias,
+          },
+        },
+        include: {
+          Cursos: {
+            where: {
+              estudianteId: estudianteInfo.Estudiante.id,
+            },
+          },
+        },
+      });
+
+      for (const materia of materiasArr) {
+        const objmateria = {
+          nombre: materia.nombre,
+          calificacion: materia.Cursos[0]?.calificacion || "N/A",
+          semCursada: materia.Cursos[0]?.semCursada || "N/A",
+        };
+        materias.push(objmateria);
+      }
+
+      const objsemestre = {
+        semestre: item.semestre,
+        materias: materias,
+      };
+
+      reticulaArray.push(objsemestre);
+    }
 
     const docxData = {
+      reticulaArray,
+      numControl: estudianteInfo.Estudiante.numeroControl,
       nombreAlumno:
         estudianteInfo.Estudiante.nombres + " " + estudianteInfo.Estudiante.apellidoPaterno + " " + estudianteInfo.Estudiante.apellidoMaterno,
+      carreraAlumno: estudianteInfo.Estudiante.Carrera.nombre,
       numSemestre: estudianteInfo.Estudiante.semestre,
       turno: "Matutino",
-      numControl: estudianteInfo.Estudiante.numeroControl,
-      fechaInicioSem: "30 de Enero del 2023",
-      fechaFinSem: "12 de Junio del 2023",
-      carreraAlumno: estudianteInfo.Estudiante.Carrera.nombre,
-      //fecha actual en formato texto español
-      fechaActual:
-        new Date().getDate() + " de " + new Date().toLocaleString("es-MX", { month: "long" }) + " del " + new Date().getFullYear().toString(),
+      //fecha actual en formato YYYY-MM-DD
+      fecha:
+        new Date().getFullYear().toString() +
+        "-" +
+        (new Date().getMonth() + 1).toString().padStart(2, "0") +
+        "-" +
+        new Date().getDate().toString().padStart(2, "0"),
     };
 
     doc.setData(docxData);
