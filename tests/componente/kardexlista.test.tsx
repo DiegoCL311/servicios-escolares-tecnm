@@ -6,7 +6,6 @@ import { NextRouter } from "next/router";
 
 // Mock del objeto NextRouter
 const router: Partial<NextRouter> = {
-  // Propiedades que necesites para tu prueba
   route: "/ruta-de-prueba",
   pathname: "/ruta-de-prueba",
   query: {},

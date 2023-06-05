@@ -6,6 +6,7 @@ import path from "path";
 import { convertToPdf } from "../utils/toPDF";
 import { convertToPdfLibre } from "../utils/toPDFLibre";
 import serverAuth from "@/lib/server-auth";
+import prismadb from "@/lib/prismadb";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Set headers
@@ -13,6 +14,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   res.setHeader("Content-Disposition", "attachment; filename=Constancia.pdf");
   const filename = Date.now().toString();
   const { acc: user } = await serverAuth(req, res);
+  console.log("req",req);
+  
 
   try {
     // Load the docx file as binary content

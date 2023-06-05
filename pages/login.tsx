@@ -47,6 +47,7 @@ const Login: React.FC<LoginProps> = ({}) => {
               onChange={(e) => setEmail(e.target.value)}
               id="username"
               type="text"
+              data-testid="email-input"
               className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
             />
           </div>
@@ -58,29 +59,31 @@ const Login: React.FC<LoginProps> = ({}) => {
               onChange={(e) => setPassword(e.target.value)}
               id="password"
               type="password"
+              data-testid="password-input"
               className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
             />
           </div>
           <br />
           <button
             onClick={mylogin}
+            data-testid="login-btn"
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-md transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 p-4"
           >
             Iniciar sesión
           </button>
 
-          <p className="mt-4">
+          <div className="mt-4">
             ¿No tienes una cuenta?{" "}
             <div className="text-blue-600 hover:text-blue-700 font-bold cursor-pointer">
-              <p
+              <div
                 onClick={() => {
                   router.push("/register");
                 }}
               >
                 Regístrate
-              </p>
+              </div>
             </div>
-          </p>
+          </div>
         </div>
       </div>{" "}
     </>
